@@ -6,8 +6,8 @@ formEl.addEventListener('input', handleInput);
 
 function handleInput(event) {
   event.preventDefault();
-  const message = textareaEl.value;
-  const email = formEl.elements.email.value;
+  const message = textareaEl.value.trim();
+  const email = formEl.elements.email.value.trim();
   const data = JSON.stringify({ message, email });
   localStorage.setItem(STORAGE_KEY, data);
 }
@@ -29,7 +29,7 @@ function handleSubmit(event) {
   } else {
     const info = {
       email: formEl.elements.email.value,
-      massage: textareaEl.value,
+      message: textareaEl.value,
     };
     console.log(info);
     event.target.reset();
