@@ -5,7 +5,6 @@ const textareaEl = formEl.querySelector('textarea');
 formEl.addEventListener('input', handleInput);
 
 function handleInput(event) {
-  event.preventDefault();
   const message = textareaEl.value.trim();
   const email = formEl.elements.email.value.trim();
   const data = JSON.stringify({ message, email });
@@ -15,8 +14,10 @@ function handleInput(event) {
 const dataJsn = localStorage.getItem(STORAGE_KEY) ?? '';
 try {
   const dataStorage = JSON.parse(dataJsn);
-  textareaEl.value = dataStorage.message;
-  formEl.elements.email.value = dataStorage.email;
+  if (dataStorage && dataStorage.message && dataStorage.email)
+  {
+    textareaEl.value = dataStorage.message;
+  formEl.elements.email.value = dataStorage.email;}
 } catch {
   console.log('no data saved');
 }
@@ -24,8 +25,10 @@ try {
 formEl.addEventListener('submit', handleSubmit);
 function handleSubmit(event) {
   event.preventDefault();
-  if (textareaEl.value === '' || formEl.elements.email.value === '') {
-    return alert('Fill out all form fields!');
+  const messageTrimmed = textareaEl.value.trim();
+  const emailTrimmed = formEl.elements.email.value.trim();
+  if (messageTrimmed === '' || emailTrimmed === '') {
+    return alert('Заповніть усі поля форми!');
   } else {
     const info = {
       email: formEl.elements.email.value,
